@@ -1,0 +1,17 @@
+<div class="page-container">
+  <div class="game-action">
+    <button mat-raised-button (click)="onAddNewGame()">
+      <mat-icon>post_add</mat-icon>
+      <span>&nbsp;New game</span>
+    </button>
+  </div>
+  <h2>Games</h2>
+  <div class="games-list">
+    <div class="game" *ngFor="let game of games" (click)="onClickGame(game)">
+      <p class="game-date">{{game.id | date: 'medium'}}</p>
+      <p class="game-players">
+        {{game.playersWithTotals}}
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="content-container">
+    <span class="title" [routerLink]="'/home'">sample</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon mat-focus-indicator mat-icon-button mat-button-base"
+      aria-label="Example icon-button with menu icon" [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item [routerLink]="'/players'">
+    <mat-icon>person_add</mat-icon>
+    <span>Players</span>
+  </button>
+</mat-menu>

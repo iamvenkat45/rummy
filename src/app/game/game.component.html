@@ -1,0 +1,100 @@
+<div class="page-container">
+  <h2>Game</h2>
+  <div class="game-settings" *ngIf="displayGameSettings">
+    <mat-accordion class="example-headers-align">
+      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Players</mat-panel-title>
+          <mat-panel-description>
+            Please choose the players &nbsp;
+            <mat-icon>supervisor_account</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field appearance="fill" class="players-select" *ngIf="game">
+          <mat-label>Players</mat-label>
+          <mat-select [(ngModel)]="game.players" multiple>
+            <mat-option *ngFor="let player of playersList" [value]="player">{{player.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="game && game.players">
+          <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="drop($event)">
+            <mat-chip class="example-box" cdkDrag *ngFor="let player of game.players">
+              {{player.name}} ({{player.shortName}})
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="game-rule-settings" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Rules</mat-panel-title>
+          <mat-panel-description>
+            Please choose rules &nbsp;
+            <mat-icon>rule</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <mat-form-field>
+          <mat-label>Game points</mat-label>
+          <input matInput [(ngModel)]="game.rules.gamePoints">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Drop</mat-label>
+          <input matInput [(ngModel)]="game.rules.dropPoints">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Middle drop</mat-label>
+          <input matInput [(ngModel)]="game.rules.middleDropPoints">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Full</mat-label>
+          <input matInput [(ngModel)]="game.rules.fullPoints">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Pool</mat-label>
+          <input matInput [(ngModel)]="game.rules.pool">
+        </mat-form-field>
+        <mat-action-row>
+          <button mat-button color="primary" (click)="nextStep()">Next</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div *ngIf="showScores">
+    <div class="score-btns">
+      <button mat-raised-button (click)="openScoreDialog()">
+        <mat-icon>content_paste</mat-icon>
+        <span>&nbsp;Add score</span>
+      </button>
+    </div>
+    <table mat-table [dataSource]="gameDataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="round">
+        <th mat-header-cell *matHeaderCellDef> Round </th>
+        <td mat-cell *matCellDef="let element"> {{element.round}} </td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+      </ng-container>
+
+      <ng-container [matColumnDef]="column" *ngFor="let column of this.playerShortNames">
+        <th mat-header-cell *matHeaderCellDef> {{column | uppercase}} </th>
+        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+        <td mat-footer-cell *matFooterCellDef>{{ totals[column] }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element" class="action-icon">
+          <mat-icon class="edit" (click)="editRound(element)">edit</mat-icon>
+        </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+      <tr mat-footer-row class="sticky-footer" *matFooterRowDef="columnsToDisplay"></tr>
+    </table>
+  </div>
+</div>

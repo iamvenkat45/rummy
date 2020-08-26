@@ -1,0 +1,45 @@
+<div class="page-container">
+  <h2>Players</h2>
+  <div class="players-action">
+    <button mat-raised-button (click)="showAddForm=!showAddForm">
+      <mat-icon>person_add</mat-icon>
+    </button>
+  </div>
+  <div class="player-form"  *ngIf="showAddForm">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Name" [formControl]="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Short name</mat-label>
+      <input matInput placeholder="Short name" [formControl]="shortName">
+    </mat-form-field>
+    <button mat-raised-button (click)="addPlayer()">
+      <span>Add player</span>
+    </button>
+  </div>
+  <div class="players">
+    <table mat-table [dataSource]="playersDataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shortName">
+        <th mat-header-cell *matHeaderCellDef> Short Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.shortName}} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element" class="action-icon">
+          <mat-icon class="edit" (click)="editPlayer(element)">edit</mat-icon>
+          <mat-icon  class="delete" (click)="deletePlayer(element)">delete</mat-icon>
+        </td>
+      </ng-container> -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.game-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.game {
+  cursor: pointer;
+  padding: 12px;
+  &:hover {
+    background-color: #fafafa;
+  }
+  p {
+    margin: 0;
+  }
+  p.game-players {
+    font-size: 13px;
+    margin-left: 15px;
+  }
+  .game-date {
+    color: #3f51b5;
+  }
+}

@@ -1,0 +1,63 @@
+.mat-expansion-panel-header-description {
+  .mat-icon {
+    margin-top: -3px;
+  }
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.players-select {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-action-row {
+  padding: 10px !important;
+}
+
+.score-btns {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-icon {
+  .mat-icon {
+    cursor: pointer;
+  }
+}
+
+.mat-cell,
+.mat-header-cell,
+.mat-footer-cell {
+  text-align: right;
+}
+
+.mat-column-round, .mat-footer-cell.mat-column-round {
+  text-align: left;
+}
+
+.mat-column-action {
+  text-align: center;
+}
+
+.game-rule-settings {
+  .mat-form-field {
+    width: 80px;
+  }
+}

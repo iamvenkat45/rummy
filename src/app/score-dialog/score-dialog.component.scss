@@ -1,0 +1,42 @@
+.player-row {
+  display: flex;
+  .mat-form-field {
+    width: 80px;
+  }
+  .dark-grey {
+    background-color: darkgrey;
+  }
+  .lime-green {
+    background-color: limegreen;
+  }
+}
+
+.score-icons button {
+  margin: 0 5px;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+}
+
+.mat-mini-fab {
+  width: 30px;
+  height: 30px;
+  line-height: 14px;
+  font-size: 14px;
+
+  &::ng-deep .mat-button-wrapper {
+    line-height: 14px;
+    padding: 0;
+
+    .mat-icon {
+      font-size: 14px;
+      padding-right: 4px;
+      padding-top: 4px;
+    }
+  }
+}
+
+.error {
+  color: #f44336;
+}

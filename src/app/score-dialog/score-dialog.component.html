@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Add Score</h1>
+<div mat-dialog-content>
+  <div class="player-row" *ngFor="let player of data.players">
+    <mat-form-field>
+      <mat-label>{{player}}</mat-label>
+      <input matInput type="number" [(ngModel)]="data.score[player]">
+    </mat-form-field>
+    <div class="score-icons">
+      <button mat-mini-fab class="lime-green" (click)="data.score[player] = '0'">R</button>
+      <button mat-mini-fab class="dark-grey" (click)="data.score[player] = data.rules.dropPoints">D</button>
+      <button mat-mini-fab color="primary" (click)="data.score[player] = data.rules.middleDropPoints">MD</button>
+      <button mat-mini-fab color="warn" (click)="data.score[player] = data.rules.fullPoints">F</button>
+    </div>
+  </div>
+  <div class="error" *ngIf="showScoreError">Please enter valid scores</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onAddScore()">Ok</button>
+</div>
