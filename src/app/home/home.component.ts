@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router, private gameService: GameService) { }
 
   ngOnInit(): void {
-    this.games = this.gameService.getGames();
+    this.games = this.gameService.getSortedGames();
     this.games.map(game => {
       const players = [];
       game.players.forEach(player => {
@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
 
   onAddNewGame() {
     const date = new Date().getTime();
+    this.gameService.sendGAEvent('new game', new Date());
     this.router.navigate(['/game', date]);
   }
 

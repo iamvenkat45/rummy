@@ -1,17 +1,25 @@
 <div class="page-container">
-  <div class="game-action">
+  <div class="game-action" *ngIf="games && games.length > 0">
     <button mat-raised-button (click)="onAddNewGame()">
       <mat-icon>post_add</mat-icon>
       <span>&nbsp;New game</span>
     </button>
   </div>
-  <h2>Games</h2>
+  <h2 *ngIf="games && games.length > 0">Games</h2>
   <div class="games-list">
+    <p class="total-games">Total games played -- {{games.length}}</p>
     <div class="game" *ngFor="let game of games" (click)="onClickGame(game)">
       <p class="game-date">{{game.id | date: 'medium'}}</p>
       <p class="game-players">
         {{game.playersWithTotals}}
       </p>
+    </div>
+    <div class="no-games-played" *ngIf="games && games.length === 0">
+      <h2>No games played yet</h2>
+      <button mat-raised-button (click)="onAddNewGame()">
+        <mat-icon>post_add</mat-icon>
+        <span>&nbsp;New game</span>
+      </button>
     </div>
   </div>
 </div>

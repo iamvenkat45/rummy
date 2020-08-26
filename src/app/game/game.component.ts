@@ -4,7 +4,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { PlayerService } from '../services/player.service';
 import { GameService } from '../services/game.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ScoreDialogComponent } from '../score-dialog/score-dialog.component';
@@ -15,7 +15,6 @@ import { ScoreDialogComponent } from '../score-dialog/score-dialog.component';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-
   step = 0;
   playersList;
   game;
@@ -27,10 +26,13 @@ export class GameComponent implements OnInit {
   playerShortNames = [];
   totals = {};
   constructor(private playerService: PlayerService, private route: ActivatedRoute, public dialog: MatDialog,
-    private gameService: GameService) {
+    private gameService: GameService, private router: Router) {
     this.route.params.subscribe(params => {
       this.gameId = params['id'];
       this.game = this.gameService.getGameById(this.gameId);
+      if(!this.game && !this.isValidGameId(Number(this.gameId))) {
+        this.router.navigate(['/']);
+      }
       if (!this.game) {
         this.initializeGame();
       } else {
@@ -41,9 +43,12 @@ export class GameComponent implements OnInit {
     });
   }
 
+  isValidGameId(id) {
+    return new Date(id) &&  new Date(id).getDay() === new Date().getDay();
+  }
+
   ngOnInit(): void {
     this.getPlayers();
-    console.log('game', this.game);
   }
 
   initializeGame() {
@@ -165,6 +170,12 @@ export class GameComponent implements OnInit {
     });
     this.totals = totals;
     this.game.totals = totals;
+  }
+
+  deleteGame() {
+    this.gameService.deleteGame(this.game);
+    this.gameService.sendGAEvent('delete game', new Date());
+    this.router.navigate(['/']);
   }
 
 }
