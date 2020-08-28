@@ -1,11 +1,12 @@
-<h1 mat-dialog-title>Add Score</h1>
+<h1 mat-dialog-title *ngIf="!data.isRejoin">{{data.isUpdate ? 'Update'  : 'Add'}} score</h1>
+<h1 mat-dialog-title *ngIf="data.isRejoin">Update rejoin scores</h1>
 <div mat-dialog-content>
   <div class="player-row" *ngFor="let player of data.players">
     <mat-form-field>
       <mat-label>{{player}}</mat-label>
       <input matInput type="number" [(ngModel)]="data.score[player]">
     </mat-form-field>
-    <div class="score-icons">
+    <div class="score-icons" *ngIf="!data.isRejoin">
       <button mat-mini-fab class="lime-green" (click)="data.score[player] = '0'">R</button>
       <button mat-mini-fab class="dark-grey" (click)="data.score[player] = data.rules.dropPoints">D</button>
       <button mat-mini-fab color="primary" (click)="data.score[player] = data.rules.middleDropPoints">MD</button>

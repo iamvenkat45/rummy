@@ -9,7 +9,7 @@ import { PlayerService } from './../services/player.service';
   styleUrls: ['./players.component.scss']
 })
 export class PlayersComponent implements OnInit {
-
+  currentPlayer;
   playersList;
   displayedColumns;
   showAddForm;
@@ -30,17 +30,26 @@ export class PlayersComponent implements OnInit {
   }
 
   createTable() {
-    this.displayedColumns = ['name', 'shortName'];
+    this.displayedColumns = ['name', 'shortName', 'action'];
   }
 
-  addPlayer() {
-    if (this.validatePlayer(this.name.value, this.shortName.value)) {
-      this.playersList.push({
-        name: this.name.value,
-        shortName: this.shortName.value
-      });
-      this.playerService.setPlayersList(this.playersList);
-      this.playersDataSource = new MatTableDataSource(this.playersList);
+  addPlayer(add) {
+    if (add && this.validatePlayer(this.name.value, this.shortName.value)) {
+      this.createPlayer();
+      this.resetForm();
+    } else {
+      const playerIndex = this.playerService.getPlayerIndexById(this.currentPlayer.id);
+      if (playerIndex !== -1) {
+        this.playersList[playerIndex] = {
+          name: this.name.value,
+          shortName: this.shortName.value,
+          id: this.currentPlayer.id
+        };
+        this.playerService.setPlayersList(this.playersList);
+        this.playersList = this.playerService.getPlayersList();
+        this.playersDataSource = new MatTableDataSource(this.playersList);
+        this.resetForm();
+      }
     }
   }
 
@@ -53,12 +62,36 @@ export class PlayersComponent implements OnInit {
   }
 
   editPlayer(player) {
+    this.currentPlayer = this.playerService.getPlayerById(player.id);
     this.name.setValue(player.name);
     this.shortName.setValue(player.shortName);
     this.isUpdate = true;
   }
 
-  deletePlayer(player) {
+  createPlayer() {
+    this.playersList.push({
+      name: this.name.value,
+      shortName: this.shortName.value,
+      id: this.playerService.getId()
+    });
+    this.playerService.setPlayersList(this.playersList);
+    this.playersDataSource = new MatTableDataSource(this.playersList);
+  }
 
+  deletePlayer(player) {
+    const playerList = this.playerService.getPlayersList();
+    const playerIndex = this.playerService.getPlayerIndexById(player.id);
+    playerList.splice(playerIndex, 1);
+    this.playerService.setPlayersList(playerList);
+    this.playersList = this.playerService.getPlayersList();
+    this.playersDataSource = new MatTableDataSource(this.playersList);
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.name.setValue('');
+    this.shortName.setValue('');
+    this.isUpdate = false;
+    this.showAddForm = false;
   }
 }

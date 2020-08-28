@@ -105,7 +105,7 @@ export class GameComponent implements OnInit {
     this.columnsToDisplay = ['round', ...this.playerShortNames, 'action'];
   }
 
-  openScoreDialog(round?): void {
+  openScoreDialog(round?, rejoin?): void {
     let playerswithCountLessthanGamePoints = 0;
     for (const key in this.totals) {
       if (this.totals[key] < this.game.rules.gamePoints) {
@@ -115,9 +115,12 @@ export class GameComponent implements OnInit {
     if (!Object.keys(this.totals).length || playerswithCountLessthanGamePoints > 1) {
       const dialogRef = this.dialog.open(ScoreDialogComponent, {
         data: {
+          isUpdate: round ? true : false,
+          isRejoin: rejoin,
           rules: this.game.rules,
           score: this.getScoreObj(round),
-          players: this.playerShortNames
+          players: this.playerShortNames,
+          totals: this.game.totals
         }
       });
 
@@ -178,4 +181,7 @@ export class GameComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  rejoin() {
+    this.openScoreDialog(false, true);
+  }
 }

@@ -7,7 +7,7 @@
   </div>
   <h2 *ngIf="games && games.length > 0">Games</h2>
   <div class="games-list">
-    <p class="total-games">Total games played -- {{games.length}}</p>
+    <p class="total-games" *ngIf="games && games.length > 0">Total games played -- {{games.length}}</p>
     <div class="game" *ngFor="let game of games" (click)="onClickGame(game)">
       <p class="game-date">{{game.id | date: 'medium'}}</p>
       <p class="game-players">
