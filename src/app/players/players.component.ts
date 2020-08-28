@@ -93,5 +93,6 @@ export class PlayersComponent implements OnInit {
     this.shortName.setValue('');
     this.isUpdate = false;
     this.showAddForm = false;
+    this.currentPlayer = {};
   }
 }
