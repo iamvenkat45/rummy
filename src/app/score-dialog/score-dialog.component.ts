@@ -7,8 +7,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./score-dialog.component.scss']
 })
 export class ScoreDialogComponent implements OnInit {
-
   showScoreError;
+  private playersOutOfGame = [];
   private originalTotals;
   constructor(public dialogRef: MatDialogRef<ScoreDialogComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
 
@@ -23,6 +23,21 @@ export class ScoreDialogComponent implements OnInit {
       });
       this.data.score = scoreObj;
     }
+    this.playersOutOfGame = [];
+    this.filterPlayersOutOfGame();
+  }
+
+  filterPlayersOutOfGame() {
+    const players = [];
+    this.data.players.forEach(player => {
+      if (!Number(this.data.totals[player]) || (Number(this.data.totals[player]) < this.data.rules.gamePoints)) {
+        players.push(player);
+      } else {
+        this.playersOutOfGame.push(player);
+        this.data.score[player] = 0;
+      }
+    });
+    this.data.players = players;
   }
 
   onNoClick() {
@@ -39,7 +54,7 @@ export class ScoreDialogComponent implements OnInit {
       });
       const newTotals = JSON.parse(JSON.stringify(this.data.score));
       this.data.players.forEach(player => {
-        this.data.score[player] = Number(newTotals[player])  - Number(this.originalTotals[player]);
+        this.data.score[player] = Number(newTotals[player]) - Number(this.originalTotals[player]);
       });
       if (rejoinError) {
         this.showError();
@@ -48,10 +63,10 @@ export class ScoreDialogComponent implements OnInit {
       }
     } else {
       let hasScoreLessThanFull;
-      let playersWithCountZero =  0;
-      Object.keys(this.data.score).forEach(player => {
+      let playersWithCountZero = 0;
+      this.data.players.forEach(player => {
         if (Number(this.data.score[player]) === 0) {
-          playersWithCountZero ++;
+          playersWithCountZero++;
         }
         if (Number(this.data.score[player]) < this.data.rules.fullPoints) {
           hasScoreLessThanFull = true
