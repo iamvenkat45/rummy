@@ -22,9 +22,10 @@ export class ScoreDialogComponent implements OnInit {
         scoreObj[player] = this.data.totals[player]
       });
       this.data.score = scoreObj;
+    } else {
+      this.playersOutOfGame = [];
+      this.filterPlayersOutOfGame();
     }
-    this.playersOutOfGame = [];
-    this.filterPlayersOutOfGame();
   }
 
   filterPlayersOutOfGame() {

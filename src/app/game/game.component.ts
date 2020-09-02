@@ -30,7 +30,7 @@ export class GameComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.gameId = params['id'];
       this.game = this.gameService.getGameById(this.gameId);
-      if(!this.game && !this.isValidGameId(Number(this.gameId))) {
+      if (!this.game && !this.isValidGameId(Number(this.gameId))) {
         this.router.navigate(['/']);
       }
       if (!this.game) {
@@ -44,7 +44,7 @@ export class GameComponent implements OnInit {
   }
 
   isValidGameId(id) {
-    return new Date(id) &&  new Date(id).getDay() === new Date().getDay();
+    return new Date(id) && new Date(id).getDay() === new Date().getDay();
   }
 
   ngOnInit(): void {
@@ -112,7 +112,7 @@ export class GameComponent implements OnInit {
         playerswithCountLessthanGamePoints++;
       }
     }
-    if (!Object.keys(this.totals).length || playerswithCountLessthanGamePoints > 1) {
+    if (!Object.keys(this.totals).length || playerswithCountLessthanGamePoints > 1 || rejoin) {
       const dialogRef = this.dialog.open(ScoreDialogComponent, {
         data: {
           isUpdate: round ? true : false,
@@ -166,9 +166,7 @@ export class GameComponent implements OnInit {
     this.playerShortNames.forEach(player => {
       totals[player] = 0;
       scores.forEach(score => {
-        if (totals[player] < this.game.rules.gamePoints) {
-          totals[player] = Number(totals[player]) + Number(score[player]);
-        }
+        totals[player] = Number(totals[player]) + Number(score[player]);
       });
     });
     this.totals = totals;
